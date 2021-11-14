@@ -37,7 +37,7 @@ int main()
 			break;
 		}
 	}
-	int k = 0; k < 6; k++)
+	for (int k = 0; k < 6; k++)
 	{
 		printf("\n%s %i\n",product_name[k],product_quantity[k]);
 	}
