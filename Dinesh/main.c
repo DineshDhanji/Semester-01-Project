@@ -2,22 +2,41 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+// STRUCTURES
+struct items
+{
+    int code;
+    char name[30];
+    int quantity;
+    int price;
+};
+
+// FUNCTIONS
 void printing();
 int greeting();
+
+// MAIN
 int main(int argc, char const *argv[])
 {
+    // To clean previous lines.
+    system("cls");
+
     int DidYouGreet = 0;
     while (1)
     {
         if (DidYouGreet == 0)
         {
-            DidYouGreet =  greeting();
+            DidYouGreet = greeting();
         }
         if (DidYouGreet == 1)
         {
+            system("cls");
             printing();
+            // Temporary work to stop screen
+                printf("\n");
+                while (getchar() != '\n');
+                getchar();
         }
-        
     }
     return 0;
 }
@@ -29,26 +48,55 @@ int greeting()
     switch (num)
     {
     case 0:
-        // reportGeneration();
+        // Temporary work
+            printf("\t\t\t\tReport Generated `\\(O w O)/`\n");
+            sleep(1);
+            system("cls");
+            return 1;
+            // reportGeneration();    to be create
         break;
     case 1:
-        // reportGeneration();
-        // return 1;
+        // Temporary work
+            printf("\t\t\t\t\tOk `\\(^ o ^)/`\n");
+            sleep(1);
+            system("cls");
+            return 1;
+            // reportGeneration();    to be create
         break;
-    
+
     default:
-        printf("\t\t\t\t\tInvalid input !\n");
+        printf("\t\t\t\t  Invalid input ! (@ . @)\n");
         sleep(1);
         system("cls");
         return 0;
         // break;
-
     }
-
 }
 void printing()
 {
-    // Welcome design
+    // Opening Product Data file for updating data.
+    FILE *ptr;
+    ptr = fopen("Products Data.txt", "r+");
+    if (ptr == NULL)
+    {
+        printf("ERROR\n");
+        // return 1;
+        exit(1);
+    }
+
+    // Accessing new data. 
+    int code, quantity, price;
+    char name[20];
+    struct items product[10];
+    for (int i = 0; fscanf(ptr, "%d %s %d %d", &code, name, &quantity, &price) != EOF; i++)
+    {
+        product[i].code = code;
+        strcpy(product[i].name, name);
+        product[i].quantity = quantity;
+        product[i].price = price;
+    }
+
+    // Design printing
     for (int i = 0; i < 15; i++)
     {
         printf("--------");
@@ -60,38 +108,39 @@ void printing()
         printf("--------");
     }
     printf("\n");
-    // Product's DATA
-    int product_len = 6;
-    int product_code[6] = {1, 2, 3, 4, 5, 6};
-    char *product_name[6] = {"Apple", "Banana", "Cat", "Dog", "Elf", "Fish"};
-    int product_quantity[6] = {10, 7, 12, 14, 14, 15};
-    int product_prices[6] = {100, 150, 120, 140, 140, 150};
-    // Cart's DATA
-    int cart_len = 2;
-    int cart_code[6] = {4, 2};
-    // char *cart_name[] = {"Apple", "Banana", "Cat", "Dog", "Elf", "Fish"};
-    // int cart_code[] = {1, 2, 3, 4, 5, 6};
-    char *cart_name[6] = {"Dog", "Banana"};
-    // int cart_quantity[] = {10,15,12,16,14,15};
-    int cart_quantity[6] = {2, 8};
-    int cart_prices[6] = {280, 1200};
-    // Printing
-    printf("\t\t\tPRODUCTS\t\t\t\t\t\tCART\nCODES\tPRODUCT NAMES\tQUANTITY\tPRICES   |   CODES\tPRODUCT NAMES\tQUANTITY\tPRICES\n");
-    for (int i = 0; i < product_len; i++)
+
+    // Printing Products
+    printf("\t\t\tPRODUCTS\t\t\t\t\tCART\nCODES\tPRODUCT NAMES\tQUANTITY\tPRICES   |   CODES\tPRODUCT NAMES\tQUANTITY\tPRICES\n");
+    for (int i = 0; i < 6; i++)
     {
-        printf("%i\t%s\t\t%i\t\t%i\t |", product_code[i], product_name[i], product_quantity[i], product_prices[i]);
-        if (cart_len > i)
-        {
-            printf("   %i\t\t%s\t\t%i\t\t%i\n", cart_code[i], cart_name[i], cart_quantity[i], cart_prices[i]);
-        }
-        else
-        {
+        printf("%i\t%s\t\t%i\t\t%i\t |", product[i].code, product[i].name, product[i].quantity, product[i].price);
+        // if (cart_len > i)
+        // {
+        //     printf("   %i\t\t%s\t\t%i\t\t%i\n", cart_code[i], cart_name[i], cart_quantity[i], cart_prices[i]);
+        // }
+    //     else
+    //     {
             printf("\n");
-        }
+    //     }
     }
     for (int i = 0; i < 15; i++)
     {
         printf("--------");
     }
-    printf("\n");
+
+    // Closing file
+    fclose(ptr);
+    
+    
+    // Work to be decided
+    // // Cart's DATA
+    // int cart_len = 2;
+    // int cart_code[6] = {4, 2};
+    // // char *cart_name[] = {"Apple", "Banana", "Cat", "Dog", "Elf", "Fish"};
+    // // int cart_code[] = {1, 2, 3, 4, 5, 6};
+    // char *cart_name[6] = {"Dog", "Banana"};
+    // // int cart_quantity[] = {10,15,12,16,14,15};
+    // int cart_quantity[6] = {2, 8};
+    // int cart_prices[6] = {280, 1200};
+    // Printing
 }
