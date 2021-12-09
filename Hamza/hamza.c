@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
     FILE *fileptr;
     if (a_check == 1)
     {
-        fileptr = fopen("Costumer Info.txt", "r");
+        fileptr = fopen("Customer Info.txt", "r");
         if (fileptr == NULL)
         {
             printf("\t\t\t\tCould not open the file. (! . !)\n");
@@ -23,17 +23,17 @@ int main(int argc, char const *argv[])
         unsigned long int Customer_Number;
         while (cont)
         {
-            
+
             rewind(fileptr);
             fscanf(fileptr, " %d", &id);
             int x = 0;
-            printf("\t\t\t\tEnter costumer's mobile number:\n\t\t\t\t");
+            printf("\t\t\t\tEnter Customer's mobile number:\n\t\t\t\t");
             scanf(" %lu", &Inputed_Number);
             while (fscanf(fileptr, "%d %s %lu", &id, name, &Customer_Number) != EOF)
             {
                 if (Customer_Number == Inputed_Number)
                 {
-                    printf("\n\t\t\t\tCostumer Id\tName\t\tMobile Number\n");
+                    printf("\n\t\t\t\tCustomer Id\tName\t\tMobile Number\n");
                     printf("\t\t\t\t%d\t\t%s\t%lu\n", id, name, Customer_Number);
                     x = 1;
                     fclose(fileptr);
@@ -67,16 +67,16 @@ int main(int argc, char const *argv[])
     }
     else if (a_check == 2)
     {
-        printf("Do you want to become our member? \n1 Yes   2 No\n");
+        printf("\t\t\t\tDo you want to become our member?\n\t\t\t\t\tYES\t\t1\n\t\t\t\t\tNo\t\t2\n\t\t\tInput: ");
         scanf(" %d", &c_check);
         if (c_check == 1)
         {
-            printf("Enter costumer's name.\n");
+            printf("\t\t\tEnter Customer's Name: ");
             fflush(stdin);
             gets(name);
-            printf("Enter costumer's Phone number.\n");
+            printf("\t\t\tEnter Customer's Phone number: ");
             scanf(" %lu", &Inputed_Number);
-            fileptr = fopen("Costumer Info.txt", "r+");
+            fileptr = fopen("Customer Info.txt", "r+");
             fscanf(fileptr, " %d", &id);
             fseek(fileptr, 0, SEEK_SET);
             fprintf(fileptr, "%d", ++id);
