@@ -1,38 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 int main(int argc, char const *argv[])
 {
-    unsigned long int cNo;
+    unsigned long int Inputed_Number;
     int a_check, b_check, c_check, a = 0, id;
     char name[30];
-    printf("Are u already a member of our store?\n 1. Yes 2. No\n");
+    printf("\t\t\t\tDo you have the membership card of our store ?\n\t\t\t\t\tYES\t\t1\n\t\t\t\t\tNo\t\t2\n\t\t\tInput: ");
     scanf(" %d", &a_check);
     FILE *fileptr;
     if (a_check == 1)
     {
-        fileptr = fopen("Costumer Record.txt", "r");
+        fileptr = fopen("Costumer Info.txt", "r");
         if (fileptr == NULL)
         {
-            printf("Could not open the file.\n");
+            printf("\t\t\t\tCould not open the file. (! . !)\n");
             exit(1);
             return 1;
         }
-        printf("\nThe file is now opened.\n\n");
-        int n = 1, x;
-        unsigned long int No;
-        while (n)
+        // cont means continue
+        int cont = 1, x;
+        unsigned long int Customer_Number;
+        while (cont)
         {
+            
             rewind(fileptr);
             fscanf(fileptr, " %d", &id);
             int x = 0;
-            printf("Enter costumer's mobile number.\n");
-            scanf(" %lu", &cNo);
-            while (fscanf(fileptr, "%d %s %lu", &id, name, &No) != EOF)
+            printf("\t\t\t\tEnter costumer's mobile number:\n\t\t\t\t");
+            scanf(" %lu", &Inputed_Number);
+            while (fscanf(fileptr, "%d %s %lu", &id, name, &Customer_Number) != EOF)
             {
-                if (No == cNo)
+                if (Customer_Number == Inputed_Number)
                 {
-                    printf("Costumer_Id      Name          Mobile_Number\n");
-                    printf("  %d          \t  %s           %lu\n", id, name, No);
+                    printf("\n\t\t\t\tCostumer Id\tName\t\tMobile Number\n");
+                    printf("\t\t\t\t%d\t\t%s\t%lu\n", id, name, Customer_Number);
                     x = 1;
                     fclose(fileptr);
                     break;
@@ -40,23 +42,23 @@ int main(int argc, char const *argv[])
             }
             if (x == 1)
             {
-                printf("He is a member. Proceeding to cart.\n");
-                n = 0;
+                printf("\n\t\t\t\t     Welcome Back %s `\\(^o^)/`!\n", name);
+                cont = 0;
             }
             else
             {
-                printf("He is not a member.\n\n");
-                printf("If you want to check again. \t\t\t\t Press 1\n");
-                printf("If he wants to continue shopping without membership. \t Press 2\n");
+                printf("\t\t\t\t\tNO DATA FOUND(o_O)\n\n");
+                printf("\t\t\tIf You Want To Input Agian\t\t1\n");
+                printf("\t\t\tContinue Without Membership\t\t2\n\t\t\t\tInput: ");
                 scanf(" %d", &b_check);
                 if (b_check == 1)
                 {
-                    n = 1;
+                    cont = 1;
                 }
                 else if (b_check == 2)
                 {
                     id = 0;
-                    n = 0;
+                    cont = 0;
                 }
             }
         }
@@ -73,13 +75,13 @@ int main(int argc, char const *argv[])
             fflush(stdin);
             gets(name);
             printf("Enter costumer's Phone number.\n");
-            scanf(" %lu", &cNo);
-            fileptr = fopen("Costumer Record.txt", "r+");
+            scanf(" %lu", &Inputed_Number);
+            fileptr = fopen("Costumer Info.txt", "r+");
             fscanf(fileptr, " %d", &id);
             fseek(fileptr, 0, SEEK_SET);
             fprintf(fileptr, "%d", ++id);
             fseek(fileptr, 0, SEEK_END);
-            fprintf(fileptr, "\n%d %s %lu", id, name, cNo);
+            fprintf(fileptr, "\n%d %s %lu", id, name, Inputed_Number);
             fclose(fileptr);
         }
         else if (c_check == 2)
