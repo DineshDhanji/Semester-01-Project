@@ -167,6 +167,7 @@ void Accounts (void)
 
         if (c_check == 1)
         {
+            char name2[30];
             x = 0;
             printf("\t\t\tEnter Customer's Name: ");
             fflush(stdin);
@@ -175,12 +176,12 @@ void Accounts (void)
             scanf(" %lu", &Inputed_Number);
             fileptr = fopen("Customer Info.txt", "r+");
             fscanf(fileptr, " %d", &id);
-            while (fscanf(fileptr, "%d %s %lu", &id, name, &Customer_Number) != EOF)
+            while (fscanf(fileptr, "%d %s %lu", &id, name2, &Customer_Number) != EOF)
             {
                 if (Customer_Number == Inputed_Number)
                 {
                     printf("\n\t\t\t\tThis Number already exists in our Data Base.\n");
-                    printf("\n\t\t\t\tCustomer Id\tName\t\tMobile Number\n\t\t\t\t%d\t\t%s\t%lu\n", id, name, Customer_Number);
+                    printf("\n\t\t\t\tCustomer Id\tName\t\tMobile Number\n\t\t\t\t%d\t\t%s\t%lu\n", id, name2, Customer_Number);
                     x = 1;
                     break;
                 }
@@ -194,7 +195,7 @@ void Accounts (void)
                 fseek(fileptr, 0, SEEK_END);
                 fprintf(fileptr, "\n%d %s %lu", id, name, Inputed_Number);
             }
-            fclose(fileptr);
+            fclose(fileptr);    
         }
         else if (c_check == 2)
         {
