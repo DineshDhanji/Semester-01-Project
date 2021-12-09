@@ -181,10 +181,10 @@ void Accounts (void)
                 if (Customer_Number == Inputed_Number)
                 {
                     printf("\n\t\t\t\tThis Number already exists in our Data Base.\n");
-                    printf("\n\t\t\t\tCustomer Id\tName\t\tMobile Number\n\t\t\t\t%d\t\t%s\t%lu\n", id, name2, Customer_Number);
+                    printf("\n\t\t\t\tCustomer Id\tName\t\tMobile Number\n\t\t\t\t%d\t\t%s\t\t%lu\n", id, name2, Customer_Number);
                     x = 1;
                     fflush(stdin);
-                    printf("Press any key to continue.....");
+                    printf("\t\t\t\tPress any key to continue.....");
                     getchar();
                     break;
                 }
