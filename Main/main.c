@@ -104,7 +104,6 @@ void Accounts (void)
         {
             printf("\t\t\t\tCould not open the file. (! . !)\n");
             exit(1);
-            return 1;
         }
         // cont means continue
         while (cont)
