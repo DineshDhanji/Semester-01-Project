@@ -15,6 +15,7 @@ struct items
 int id;
 // FUNCTIONS
 int greeting();
+void reportGenerationLoadingScreen();
 void Accounts (void);
 void RepeatOnInvalid1(void)
 {
@@ -61,7 +62,7 @@ int greeting()
         // Temporary work
             printf("\t\t\t\tReport Generated `\\(O w O)/`\n");
             sleep(1);
-            system("cls");
+            reportGenerationLoadingScreen();
             return 1;
             // reportGeneration();    to be create
         break;
@@ -83,7 +84,36 @@ int greeting()
         // break;
     }
 }
-
+void reportGenerationLoadingScreen()
+{
+    int counter = 0;
+    for (int i = 0; i < 101; i++)
+    {
+        if (i % 5 == 0)
+        {
+            counter += 2;
+        }
+        system("cls");
+        printf("\n\n\n\n\t\t\t   GENERATING REPORT `\\(^ o ^)/`\n\n\t\t\t");
+        for (int j = 0; j < counter; j += 10)
+        {
+            printf("_______");
+        }
+        printf("\n\n\t\t\t\t\t%d %c\n\n\n", i, 37);
+        if (i == 5 || i == 17 || i == 87)
+        {
+            sleep(1);
+        }
+        else if (i == 99)
+        {
+            sleep(2);
+        }
+        else
+        {
+            usleep(20000);
+        }
+    }
+}
 void Accounts (void)
 {
     unsigned long int Inputed_Number, Customer_Number;
