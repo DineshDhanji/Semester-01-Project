@@ -13,16 +13,15 @@ struct items
 // #include <windows.h>
 int main(int argc, char const *argv[])
 {
+    struct pro
+    {
+        char name[20];
+        float profit;
+    };
 
-
-
-
-
-
-    
     system("cls");
     printf("\x1B[1;%dm", 29);
-    printf("\t\t\t\t<--- SALE REPORT --->\n\n");
+    printf("\t\t\t\t\t<--- SALE REPORT --->\n\n");
     FILE *fileptr;
     fileptr = fopen("./Products.txt", "r");
     if (fileptr == NULL)
@@ -36,11 +35,12 @@ int main(int argc, char const *argv[])
     fscanf(fileptr, "%d", &productQuantity);
 
     int *OpeningStock;
-    float *Profits;
     struct items *ClosingStock;
     OpeningStock = (int *)calloc(productQuantity, sizeof(int));
     ClosingStock = (struct items *)calloc(productQuantity, sizeof(struct items));
-    Profits = (float *)calloc(productQuantity, sizeof(float));
+    struct pro *Profits;
+    Profits = (struct pro *)calloc(productQuantity, sizeof(struct pro));
+
 
     int i = 0;
     while (fscanf(fileptr, "%d %s %d %d", &code, name, &quantity, &price) != EOF)
@@ -69,69 +69,42 @@ int main(int argc, char const *argv[])
     }
 
     float TotalSaleInAmount = 0, TotalCost = 0, TotalMarUp = 0;
-    // printf("Product Name\t\tSale Per Unit\tSale in Amount\tCost\t\tMarkup/Profit\n");
     for (int i = 0; i < productQuantity; i++)
     {
         int SaleInAmount = ClosingStock[i].price * (OpeningStock[i] - ClosingStock[i].quantity);
         float Cost = SaleInAmount / 1.2;
         float MarkUp = SaleInAmount - Cost;
-        // printf("%s\t\t\t%d\t\t%d\t\t%.2f\t\t%.2f\n", ClosingStock[i].name, ClosingStock[i].price, SaleInAmount, Cost, MarkUp);
         TotalSaleInAmount += SaleInAmount;
         TotalCost += Cost;
         TotalMarUp += MarkUp;
-        Profits[i] = round(MarkUp);
+        strcpy(Profits[i].name, ClosingStock[i].name);
+        Profits[i].profit = round(MarkUp);
     }
-    // printf("\nTOTAL:\t\t\t\t\t%.2f\t\t%.2f\t\t%.2f\n", TotalSaleInAmount, TotalCost, TotalMarUp);
-
-    for (int i = 0; i < productQuantity; i++)
-    {
-        printf("%f\n", Profits[i] );
-    }
-
-    // fileptr = fopen("./Products Info.txt", "r");
-    // if (fileptr == NULL)
-    // {
-    //     printf("\t\t\t\tCould not open the file. (! . !)\n");
-    //     exit(1);
-    // }
-
-    // while (fscanf(fileptr, "%d %s %d %d", &code, name ,&quantity,&price) != EOF)
-    // {
-    //     /* code */
-    // }
 
     for (int i = 0; i < productQuantity; i++)
     {
         for (int j = i; j < productQuantity; j++)
         {
-            if (Profits[i] < Profits[j])
+            if (Profits[i].profit < Profits[j].profit)
             {
-                float temp = Profits[j];
+                struct pro temp = Profits[j];
                 Profits[j] = Profits[i];
                 Profits[i] = temp;
             }
         }
     }
 
-    for (int i = 0; i < productQuantity; i++)
+    for (int i = 100; i >= 0; i -= 2)
     {
-        printf("%f\n", Profits[i] );
-    }
-    
-
-    // int a[] = {40, 10, 25, 10, 4, 2};
-
-    for (int i = 100; i >= 0; i-=2)
-    {
-        if (i <= Profits[0]+2)
+        if (i <= Profits[0].profit + 2)
         {
             // printf("i:%d\n",i);
             printf("\x1B[0;%dm", 29);
-            printf("\t\t%d\t", i);
+            printf("\t\t\t%d\t", i);
             for (int j = 0; j < 6; j++)
             {
                 printf("\x1B[0;%dm", 30 + j);
-                if (Profits[j] >= i)
+                if (Profits[j].profit >= i)
                 {
                     printf("\t%c", 219);
                 }
@@ -142,35 +115,41 @@ int main(int argc, char const *argv[])
             }
             printf("\n");
         }
-        
-            // printf("ouyt:%d\n",i);
-        // if (i <= (a[0] + 2) / 2)
-        // {
-            // printf("i:%d\n",i);
-        //     // printf("\x1B[0;%dm", 29);
-        //     printf("  %d\t", per);
-        //     for (int j = 0; j < len; j++)
-        //     {
-        //         printf("\x1B[0;%dm", 30 + j);
-        //         if (a[j] >= per)
-        //         {
-        //             printf("\t%c", 219);
-        //         }
-        //         else
-        //         {
-        //             printf("\t%c", 0);
-        //         }
-        //     }
-        //     per -= 2;
-        //     printf("\n");
-        // }
     }
-    printf("\t");
+    printf("\t\t");
     printf("\x1B[0;%dm", 29);
     for (int i = 0; i < 9; i++)
     {
         printf("________");
     }
-
+    printf("\n\n\t\t\tLegends:\n\t\t\t");
+    for (int i = 0; i < 6; i++)
+    {
+        printf("\x1B[0;%dm", 30 + i);
+        printf("%c ", 254);
+        printf("\x1B[0;%dm", 29);
+        printf("%s\t", Profits[i].name);
+    }
+    
+    printf("\x1B[1;%dm", 29);
+    printf("\n\n\n\t\tProduct Name\t\tSale Per Unit\tSale in Amount\tCost\t\tMarkup/Profit\n\t\t");
+    printf("\x1B[0;%dm", 29);
+    for (int i = 0; i < productQuantity; i++)
+    {
+        
+        int SaleInAmount = ClosingStock[i].price * (OpeningStock[i] - ClosingStock[i].quantity);
+        float Cost = SaleInAmount / 1.2;
+        float MarkUp = SaleInAmount - Cost;
+        printf("%s\t\t\t%d\t\t%d\t\t%.2f\t\t%.2f\n\t\t", ClosingStock[i].name, ClosingStock[i].price, SaleInAmount, Cost, MarkUp);
+    }
+    for (int i = 0; i < 11; i++)
+    {
+        printf("=======");
+    }
+    
+    printf("\n\t\tTOTAL:\t\t\t\t\t%.2f\t\t%.2f\t\t%.2f\n\n", TotalSaleInAmount, TotalCost, TotalMarUp);
+    free(OpeningStock);
+    free(ClosingStock);
+    free(Profits);
     return 0;
 }
