@@ -1,6 +1,0 @@
-101 Apple 2 3
-102 Banana 5 3
-103 Cat 4 12
-104 Dog 6 14
-105 Elf 0 14
-106 Fish 9 9
