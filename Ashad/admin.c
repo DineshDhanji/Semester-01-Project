@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 struct items
 {
@@ -17,16 +18,19 @@ struct employe
 }
 data[10];
 
-void loginPortal();
-void adminPortal();
 int countproduct();
 int countcart();
+int countemploye();
+
+void loginPortal();
+void adminPortal();
+void adminMenu();
+
 void addProduct(); 
 void deleteProduct();
-int countemploye();
+
 void addEmploye();
 void remEmploye();
-void adminMenu();
 
 
 int main(int argc, char const *argv[])
@@ -42,9 +46,10 @@ void loginPortal()
 	printf("\t\t\tSelect the respective option\n");
 	printf("\t\t\tLogin as admin\t\t\t1\n");
     printf("\t\t\tLogin as employee\t\t2\n");
+	printf("Input: ");
     do
 	{
-		printf("Input: ");
+		fflush(stdin);
 		scanf("%d", &choice);
 	}while(choice != 1 && choice != 2);
 	switch(choice)
@@ -114,7 +119,11 @@ void adminMenu()
 	printf("\t\t\tSelect the respective option\n");
 	printf("\t\tAdd a product\t\t\t1\n\t\tDelete a product\t\t2\n\t\tAdd a employee\t\t\t3\n\t\tRemove a employee\t\t4\n\t\tGo back\t\t\t\t5\n");
 	printf("\t\tInput: ");
-	scanf("%i",&choice);
+	do
+	{
+		fflush(stdin);
+		scanf("%i",&choice);
+	}while(choice < 1 || choice > 5);
 	switch(choice)
 	{
 		case 1:
@@ -172,7 +181,7 @@ void addProduct()
 	fflush(stdin);
 	printf("Enter the item you want to add to store: ");
 	gets(product[cur].name);
-	printf("Enter the price of %s",product[cur].name);
+	printf("Enter the price of %s: ",product[cur].name);
 	scanf("%i",&curPrice);
 	product[cur].price = curPrice;
 	printf("Enter the quantiity which is available in the mart: ");
@@ -206,7 +215,7 @@ void addProduct()
 
 void deleteProduct()
 {
-	int inCode,choice,i;
+	int inCode,choice,i,choice2,flag = 0;
 	FILE *ptr;
     ptr = fopen("Products Data.txt", "r");
     if (ptr == NULL)
@@ -231,12 +240,16 @@ void deleteProduct()
 	FILE *fp;
 	fopen("Products Data.txt", "w");
 	printf("Enter the product code you want to delete: ");
-	scanf("%i",&inCode);
+	fflush(stdin);
+	do
+	{
+		scanf("%i",&inCode);
+	}while(inCode < 0 || inCode > 99999);
 	for( i = 0; i < countproduct(); i++)
 	{
 		if(product[i].code == inCode)
 		{
-			printf("\t\tAre you sure you want to remove %s\n\t\tPress 1 to Continue\n\t\tPress 2 to go back\n\t\tpInput",product[i].name);
+			printf("\t\tAre you sure you want to remove %s\n\t\tPress 1 to Continue\n\t\tPress 2 to go back\n\t\tInput: ",product[i].name);
 			do
 			{
 				scanf("%i",&choice);
@@ -253,23 +266,42 @@ void deleteProduct()
 					printf("\t\t\t\tCould not open the file. (! . !)\n");
 					exit(1);
 				}
-
-				for (i= 0; i < countproduct(); i++)
+				printf("Do you want to remove mre items?\n\t\tYes\t\t1\n\t\tNo\t\t0\nInput: ");
+				do
 				{
-					// printf("%d\t", i);
-					fprintf(fp, "%d %s %d %d\n", product[i].code, product[i].name, product[i].quantity, product[i].price);
+					scanf("%i",&choice2);
+				}while(choice2 != 1 && choice2 != 0);
+				switch(choice2)
+				{
+					case 1:
+						deleteProduct();
+					break;
+					case 0:
+						for (i= 0; i < countproduct(); i++)
+						{
+							// printf("%d\t", i);
+							fprintf(fp, "%d %s %d %d\n", product[i].code, product[i].name, product[i].quantity, product[i].price);
+						}
+						adminMenu();
+					break;
 				}
 				break;
 			case 2:
 				deleteProduct();
 				break;			
-			default:
-				break;
 			}
+			flag = 1;
 		}
 	}
-}
 
+	if(flag == 0)
+	{
+		printf("Please enter the valid code!\n");
+		sleep(1/2);
+		deleteProduct();
+		
+	}
+}
 void addEmploye()
 {
 	int choice=0;
@@ -319,7 +351,7 @@ void addEmploye()
 
 void remEmploye()
 {
-	int inCode,i,j,choice;
+	int inCode,i,j,choice,choice2;
 	int id;
 	int cur = countemploye();
 	char emp[20];
@@ -356,7 +388,21 @@ void remEmploye()
 						fprintf(fp, "%d %s\n", data[j].ID, data[j].name);
 				}
 				fclose(fp2);
-				remEmploye();
+				printf("Do you want to remove more employees?\n\t\tYes\t\t1\n\t\tNo\t\t0\nInput: ");
+				do
+				{
+					fflush(stdin);
+					scanf("%i",&choice2);
+				}while(choice2 != 1 && choice2 != 0);
+				switch(choice2)
+				{
+					case 1:
+						remEmploye();
+					break;
+					case 0:
+						adminMenu();
+
+				}
 				break;
 			}
 			if(choice == 0)
