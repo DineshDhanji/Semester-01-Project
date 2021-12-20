@@ -31,118 +31,91 @@ int addProduct();
 int deleteProduct();
 int addEmploye();
 int remEmploye();
+
 // MAIN
 int main(int argc, char const *argv[])
 {
-    // // To clean previous lines.
-    // system("cls");
-    // struct items *product, *cart;
-    // FILE *ptr;
-    // ptr = fopen("Products.txt", "r+");
-    // if (ptr == NULL)
-    // {
-    //     printf("ERROR\n");
-    //     exit(1);
-    // }
+    // To clean previous lines.
+    system("cls");
+    struct items *product, *cart;
+    FILE *ptr;
+    ptr = fopen("Products.txt", "r+");
+    if (ptr == NULL)
+    {
+        printf("ERROR\n");
+        exit(1);
+    }
 
-    // // productQuantity = Qunatity of products in Products.txt
-    // int productQuantity;
-    // fscanf(ptr, "%d", &productQuantity);
-    // product = (struct items *)calloc(productQuantity, sizeof(struct items));
-    // cart = (struct items *)calloc(productQuantity, sizeof(struct items));
+    // productQuantity = Qunatity of products in Products.txt
+    int productQuantity;
+    fscanf(ptr, "%d", &productQuantity);
+    product = (struct items *)calloc(productQuantity, sizeof(struct items));
+    cart = (struct items *)calloc(productQuantity, sizeof(struct items));
 
     int DidYouGreet = 0, IsCustomerAvailable = 0;
-    // while (1)
-    // {
-    //     if (DidYouGreet == 0)
+    while (1)
+    {
+        if (DidYouGreet == 0)
     {
         DidYouGreet = greeting();
     }
-    //     if (DidYouGreet == 1)
-    //     {
-    //         if (IsCustomerAvailable == 0)
-    //         {
-    //             IsCustomerAvailable = Accounts();
-    //         }
-    //         else
-    //         {
-    //             system("cls");
-    //             IsCustomerAvailable = printing(ptr, product, cart, productQuantity);
-    //         }
+        if (DidYouGreet == 1)
+        {
+            if (IsCustomerAvailable == 0)
+            {
+                IsCustomerAvailable = Accounts();
+            }
+            else
+            {
+                system("cls");
+                IsCustomerAvailable = printing(ptr, product, cart, productQuantity);
+            }
 
-    //         // Opening Products.txt file for updating data.
-    //         // Temporary work to stop screen
-    //         // printf("\n");
-    //         // fflush(stdin);
-    //         // getchar();
-    //     }
-    // }
-    // return 0;
+            // Opening Products.txt file for updating data.
+            // Temporary work to stop screen
+            // printf("\n");
+            // fflush(stdin);
+            // getchar();
+        }
+    }
+    return 0;
 }
 int greeting()
 {
-    // int choice;
-    // do
-    // {
-    //     system("cls");
-    //     printf("\t\t\t\t\tWELCOME TO MAAD MART\n\t\t\t\t\t    LOGIN PROTAL\n\n");
-    //     printf("\t\t\t\tSelect the respective option:\n");
-    //     printf("\t\t\t\tLogin as Admin\t\t\t1\n");
-    //     printf("\t\t\t\tLogin as Employee\t\t2\n\n");
-    //     printf("\t\t\t\t\tInput: ");
-    //     fflush(stdin);
-    //     scanf(" %d", &choice);
-    //     if (choice != 1 && choice != 2)
-    //     {
-    //         printf("\t\t\t\t     INVALID INPUT (O-o)\n");
-    //         sleep(1);
-    //     }
+    int choice;
+    do
+    {
+        system("cls");
+        printf("\t\t\t\t\tWELCOME TO MAAD MART\n\t\t\t\t\t    LOGIN PROTAL\n\n");
+        printf("\t\t\t\tSelect the respective option:\n");
+        printf("\t\t\t\tLogin as Admin\t\t\t1\n");
+        printf("\t\t\t\tLogin as Employee\t\t2\n\n");
+        printf("\t\t\t\t\tInput: ");
+        fflush(stdin);
+        scanf(" %d", &choice);
+        if (choice != 1 && choice != 2)
+        {
+            printf("\t\t\t\t     INVALID INPUT (O-o)\n");
+            sleep(1);
+        }
 
-    // } while (choice != 1 && choice != 2);
+    } while (choice != 1 && choice != 2);
 
-    // switch (choice)
-    // {
-    // case 1:
-    // {
-    // choice =
-    adminPortal();
-    //     break;
-    // }
-    // case 2:
-    // {
-    //     printf("\t\t\t\t     EMPLOYEE PORTAL\n");
-    //     sleep(1);
-    //     break;
-    // }
-    // }
+    switch (choice)
+    {
+    case 1:
+    {
+    choice = adminPortal();
+        break;
+    }
+    case 2:
+    {
+        printf("\t\t\t\t     EMPLOYEE PORTAL\n");
+        sleep(1);
+        break;
+    }
+    }
 
-    // int num;
-    // printf("\t\t\t\t\tWELCOME TO MAAD MART\n\n\t\t\t\tSelect the respective option:\n\t\t\tLogin as Admin\t\t\t0\n\t\t\tLogin as Employ\t\t\t1\n\t\t\tInput: ");
-    // scanf(" %d", &num);
-    // switch (num)
-    // {
-    // case 0:
-    //     // Temporary work
-    //     printf("\t\t\t\tLOGIN AS ADMIN `\\(O w O)/`\n");
-    //     sleep(1);
-    //     reportGenerationLoadingScreen();
-    //     return 1;
-    //     break;
-    // case 1:
-    //     // Temporary work
-    //     printf("\t\t\t\t\tLOGIN AS EMPLOY`\\(^ o ^)/`\n");
-    //     sleep(1);
-    //     system("cls");
-    //     return 1;
-    //     break;
-
-    // default:
-    //     printf("\t\t\t\t  Invalid input ! (@ . @)\n");
-    //     sleep(1);
-    //     system("cls");
-    //     return 0;
-    //     // break;
-    // }
 }
 void reportGenerationLoadingScreen()
 {
@@ -682,111 +655,110 @@ int countcart(struct items *cart)
 }
 int adminPortal()
 {
-    // int choice = 0;
-    // char masterID[20] = "panther";
-    // char adminID[20];
-    // int masterPassword = 10651;
-    // int adminPassword;
-    // do
-    // {
-    //     system("cls");
-    //     fflush(stdin);
-    //     printf("\t\t\t\t\t    LOGIN PROTAL\n\n\t\t\tEnter username or ID: ");
-    //     gets(adminID);
-    //     printf("\t\t\tEnter password: ");
-    //     scanf(" %d", &adminPassword);
-    //     fflush(stdin);
-    //     choice = 0;
-    //     if (strcmp(adminID, masterID) != 0 || masterPassword != adminPassword)
-    //     {
-    //         printf("\n\n\t\t\t\t\tINVALID CREDENTIAL\n");
-    //         if (strcmp(adminID, masterID) != 0)
-    //         {
-    //             printf("\n\n\t\t\t\t\tWRONG USERNAME\n");
-    //         }
-    //         else if (masterPassword != adminPassword)
-    //         {
-    //             printf("\n\n\t\t\t\t\tWRONG PASSWORD\n");
-    //         }
-    //         printf("\t\t\t\tSelect the respective option:\n");
-    //         printf("\t\t\t\tGo Back\t\t\t\t1\n\t\t\t\tRe-Enter\t\t\t2\n");
-    //         do
-    //         {
-    //             printf("\t\t\t\tInput: ");
-    //             scanf(" %d", &choice);
-    //             fflush(stdin);
-    //         } while (choice != 1 && choice != 2);
-    //     }
-    //     else
-    //     {
-    // choice =
-    adminMenu();
-    //     }
+    int choice = 0;
+    char masterID[20] = "panther";
+    char adminID[20];
+    int masterPassword = 10651;
+    int adminPassword;
+    do
+    {
+        system("cls");
+        fflush(stdin);
+        printf("\t\t\t\t\t    LOGIN PROTAL\n\n\t\t\tEnter username or ID: ");
+        gets(adminID);
+        printf("\t\t\tEnter password: ");
+        scanf(" %d", &adminPassword);
+        fflush(stdin);
+        choice = 0;
+        if (strcmp(adminID, masterID) != 0 || masterPassword != adminPassword)
+        {
+            printf("\n\n\t\t\t\t\tINVALID CREDENTIAL\n");
+            if (strcmp(adminID, masterID) != 0)
+            {
+                printf("\n\n\t\t\t\t\tWRONG USERNAME\n");
+            }
+            else if (masterPassword != adminPassword)
+            {
+                printf("\n\n\t\t\t\t\tWRONG PASSWORD\n");
+            }
+            printf("\t\t\t\tSelect the respective option:\n");
+            printf("\t\t\t\tGo Back\t\t\t\t1\n\t\t\t\tRe-Enter\t\t\t2\n");
+            do
+            {
+                printf("\t\t\t\tInput: ");
+                scanf(" %d", &choice);
+                fflush(stdin);
+            } while (choice != 1 && choice != 2);
+        }
+        else
+        {
+    choice = adminMenu();
+        }
 
-    // } while (choice == 2);
-    // return 0;
+    } while (choice == 2);
+    return 0;
 }
 int adminMenu()
 {
-    // int choice = 1;
+    int choice = 1;
 
-    // while (choice)
-    // {
-    //     do
-    //     {
-    //         system("cls");
-    //         printf("\t\t\t\t\t    ADMIN PROTAL\n\t\t\t\tSelect the respective option\n");
-    //         printf("\t\t\t\tAdd A Product\t\t\t1\n\t\t\t\tDelete A Product\t\t2\n\t\t\t\tAdd An Employee\t\t\t3\n\t\t\t\tRemove An Employee\t\t4\n\t\t\t\tReport Generation\t\t5\n\t\t\t\tLOG OUT\t\t\t\t6\n");
-    //         printf("\t\t\t\tInput: ");
-    //         fflush(stdin);
-    //         scanf(" %d", &choice);
-    //     } while (choice < 1 || choice > 6);
-    //     switch (choice)
-    //     {
-    //     case 1:
-    //     {
-    //         choice = addProduct();
-    //         break;
-    //     }
-    //     case 2:
-    //     {
-    //         choice = deleteProduct();
-    //         break;
-    //     }
-    //     case 3:
-    //     {
-    // choice = addEmploye();
-    //     	break;
-    //     }
-    //     // case 4:
-    //     // {
-    //     // 	choice = remEmploye();
-    //     // 	break;
-    //     // }
-    //     case 5:
-    //     {
-    //     	reportGenerationLoadingScreen();
-    //     	break;
-    //     }
-    //     case 6:
-    //     {
-    //         printf("\t\t\t\t      LOGING OUT ... `\\(^ o ^)/`\n");
-    //         sleep(1);
-    //         choice = 0;
-    //         return 0;
-    //         break;
-    //     }
-    //     default:
-    //     {
-    //         printf("\n\n\t\t\t\t\tINVALID INPUT @ . @\n");
-    //         sleep(1);
-    //     }
-    //     }
-    //     if (choice == 0)
-    //     {
-    //         break;
-    //     }
-    // }
+    while (choice)
+    {
+        do
+        {
+            system("cls");
+            printf("\t\t\t\t\t    ADMIN PROTAL\n\t\t\t\tSelect the respective option\n");
+            printf("\t\t\t\tAdd A Product\t\t\t1\n\t\t\t\tDelete A Product\t\t2\n\t\t\t\tAdd An Employee\t\t\t3\n\t\t\t\tRemove An Employee\t\t4\n\t\t\t\tReport Generation\t\t5\n\t\t\t\tLOG OUT\t\t\t\t6\n");
+            printf("\t\t\t\tInput: ");
+            fflush(stdin);
+            scanf(" %d", &choice);
+        } while (choice < 1 || choice > 6);
+        switch (choice)
+        {
+        case 1:
+        {
+            choice = addProduct();
+            break;
+        }
+        case 2:
+        {
+            choice = deleteProduct();
+            break;
+        }
+        case 3:
+        {
+    choice = addEmploye();
+        	break;
+        }
+        case 4:
+        {
+        	choice = remEmploye();
+        	break;
+        }
+        case 5:
+        {
+        	reportGenerationLoadingScreen();
+        	break;
+        }
+        case 6:
+        {
+            printf("\t\t\t\t      LOGING OUT ... `\\(^ o ^)/`\n");
+            sleep(1);
+            choice = 0;
+            return 0;
+            break;
+        }
+        default:
+        {
+            printf("\n\n\t\t\t\t\tINVALID INPUT @ . @\n");
+            sleep(1);
+        }
+        }
+        if (choice == 0)
+        {
+            break;
+        }
+    }
 }
 
 int addProduct()
@@ -847,57 +819,63 @@ int addProduct()
 int deleteProduct()
 {
     system("cls");
-    FILE *ptr1, *ptr2;
-    char fileName[] = "Products.txt";
-    ptr1 = fopen(fileName, "r+");
-    ptr2 = fopen("copy.txt", "w");
-    if (ptr1 == NULL || ptr2 == NULL)
+    FILE *ptr1;
+    ptr1 = fopen("./Products.txt", "r+");
+    if (ptr1 == NULL)
     {
-        printf("Error in opening file.\n");
+        printf("\t\t\t\tError in opening file.\n");
+        sleep(1);
         exit(1);
     }
+
     int productQuantity, code, quantity, price, num, found = 0, cursor1;
     char name[20];
     fscanf(ptr1, "%d", &productQuantity);
-
     cursor1 = ftell(ptr1);
-
     printf("\t\t\t\tDELETE SECTION:\n\n");
     while (fscanf(ptr1, "%d %s %d %d", &code, name, &quantity, &price) != EOF)
     {
         printf("\t\t\t\t%d %s %d %d\n", code, name, quantity, price);
     }
+
     printf("\n\t\tEnter the code of the item you want to delete: ");
     scanf(" %d", &num);
 
-    fseek(ptr1, cursor1, SEEK_SET);
-
-    while (fscanf(ptr1, "%d %s %d %d", &code, name, &quantity, &price) != EOF)
+    FILE *ptr2 = fopen("./copy.txt", "w+");
+    if (ptr2 == NULL)
     {
-        if (num == code)
+        printf("\t\t\t\tError in opening file.\n");
+        sleep(1);
+        exit(1);
+    }
+    fprintf(ptr2, "%d\n", productQuantity-1);
+    fseek(ptr1, cursor1, SEEK_SET);
+    while (fscanf(ptr1, "%d %s %d %d", &code, &name, &quantity, &price) != EOF)
+    {
+        found = 1;
+
+        if (code != num)
         {
-            found = 1;
-            fseek(ptr1, cursor1, SEEK_SET);
-            fprintf(ptr2, "%d\n", productQuantity - 1);
-            while (fscanf(ptr1, "%d %s %d %d", &code, name, &quantity, &price) != EOF)
-            {
-                if (num != code)
-                {
-                    fprintf(ptr2, "%d %s %d %d\n", code, name, quantity, price);
-                }
-            }
-            fclose(ptr1);
-            remove(fileName);
-            // fclose(ptr2);
-            // rename("copy.txt", fileName);
-            break;
+            fprintf(ptr2, "%d %s %d %d\n", code, name, quantity, price);
         }
     }
+    fclose(ptr1);
     if (found == 0)
     {
-        printf("\t\t\t\tINVALID INPUT (@ - @)\n");
+        printf("\t\t\t\tINVALID CODE (@ o @)\n");
         sleep(1);
     }
+    else
+    {
+        ptr1 = fopen("./Products.txt", "w");
+        fprintf(ptr1, "%d\n", productQuantity-1);
+        fseek(ptr2, cursor1, SEEK_SET);
+        while (fscanf(ptr2, "%d %s %d %d", &code, name, &quantity, &price) != EOF)
+        {
+            fprintf(ptr1, "%d %s %d %d\n", code, name, quantity, price);
+        }
+    }
+
     return 1;
 }
 
@@ -958,7 +936,7 @@ int remEmploye()
     {
         if (code == code1)
         {
-            printf("\t\t\t\tName of Employee: %s\n\t\t\t\tID: %d\n\t\t\t\tHAS BEEN REMOVED",name, code);
+            printf("\t\t\t\tName of Employee: %s\n\t\t\t\tID: %d\n\t\t\t\tHAS BEEN REMOVED", name, code);
             found = 1;
             rewind(ptr1);
             FILE *ptr2;
