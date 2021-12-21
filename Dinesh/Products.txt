@@ -1,7 +1,9 @@
-6
-101 Apple 7 3
-102 Banana 10 4
-103 Cat 10 12
-104 Dog 4 14
-105 Elf 10 14
-106 Fish 10 5
+8
+101 Apple 50 3
+102 Banana 50 4
+103 Cornflakes 50 8
+104 Oil 50 7
+105 Fish 50 5
+106 Rice 50 9
+107 Milk 50 5
+108 Jelly 50 1
