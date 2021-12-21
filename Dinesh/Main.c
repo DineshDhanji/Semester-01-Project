@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <unistd.h>
+// #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -32,7 +32,7 @@ int deleteProduct();
 int addEmploye();
 int remEmploye();
 int employeePortal();
-
+int updateUserData(void);
 // MAIN
 int main(int argc, char const *argv[])
 {
@@ -296,7 +296,7 @@ int Accounts(void)
 {
     system("cls");
     unsigned long int Inputed_Number, Customer_Number;
-    int a_check, b_check, c_check, a = 0, x, cont = 1;
+    int a_check, b_check, c_check, a = 0, x, cont = 1, update_info;
     char name[30];
     do
     {
@@ -328,6 +328,12 @@ int Accounts(void)
                 {
                     printf("\n\t\t\t\tCustomer Id\tName\t\tMobile Number\n");
                     printf("\t\t\t\t%d\t\t%s\t%lu\n", customer.code, customer.name, Customer_Number);
+                    printf("\t\t\t\tDoes customer want to update his information?\n\t\t\t\t\tYES\t\t1\n\t\t\t\t\tNo\t\t2\n\t\t\tInput: ");
+                    scanf(" %d", &update_info);
+                    if (update_info == 1)
+                    {
+                        updateUserData();
+                    }
                     x = 1;
                     fclose(fileptr);
                     break;
@@ -430,7 +436,7 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
     {
         i++;
     }
-    
+
     printf("\n");
     printf("\t\t\t\t\tWELCOME TO MAAD MART\n");
     for (int i = 0; i < 10; i++)
@@ -470,11 +476,10 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
     {
         printf("-----------");
     }
-    
+
     fflush(stdin);
     printf("\nInput: ");
     scanf(" %d", &userCode);
-    
 
     if (userCode == 99)
     {
@@ -1027,4 +1032,56 @@ int employeePortal()
         sleep(1);
         return 0;
     }
+}
+int updateUserData(void)
+{
+    system("cls");
+    unsigned long int Customer_Number, New_Number;
+    int temp_customer_code, b, Customer_code, found = 0;
+    char Customer_Name[30];
+    FILE *fileptr1, *fileptr2;
+    fileptr1 = fopen("Customer Info.txt", "r");
+    fileptr2 = fopen("Customer Info.txt", "r+");
+    if (fileptr1 == NULL && fileptr2 == NULL)
+    {
+        printf("\t\t\t\tCould not open the file. (! . !)\n");
+        exit(1);
+    }
+    fscanf(fileptr1, "%d", &temp_customer_code);
+    fprintf(fileptr2, "%d\n", temp_customer_code);
+    fflush(stdin);
+    printf("\t\t\t\tEnter new mobile number to update\n\t\t\t\t\tINPUT: ");
+    scanf(" %lu", &New_Number);
+    while (fscanf(fileptr1, "%d %s %lu", &Customer_code, Customer_Name, &Customer_Number) != EOF)
+    {
+        if (New_Number == Customer_Number)
+        {
+            found = 1;
+            break;
+        }
+    }
+    if (found == 1)
+    {
+        printf("\t\t\t\tTHE NUMBER ALREADY EXISTS IN DATA\n");
+        sleep(1);
+    }
+    else
+    {
+        rewind(fileptr1);
+        fscanf(fileptr1, "%d", &temp_customer_code);
+        while (fscanf(fileptr1, "%d %s %lu", &Customer_code, Customer_Name, &Customer_Number) != EOF)
+        {
+            if (Customer_code == customer.code)
+            {
+                fprintf(fileptr2, "%d %s %lu\n", Customer_code, Customer_Name, New_Number);
+            }
+            else
+            {
+                fprintf(fileptr2, "%d %s %lu\n", Customer_code, Customer_Name, Customer_Number);
+            }
+        }
+        fclose(fileptr2);
+        fclose(fileptr1);
+    }
+    return 1;
 }
