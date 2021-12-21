@@ -430,7 +430,7 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
     {
         i++;
     }
-    
+
     printf("\n");
     printf("\t\t\t\t\tWELCOME TO MAAD MART\n");
     for (int i = 0; i < 10; i++)
@@ -471,11 +471,10 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
     {
         printf("-----------");
     }
-    
+
     fflush(stdin);
     printf("\nInput: ");
     scanf(" %d", &userCode);
-    
 
     if (userCode == 99)
     {
@@ -549,12 +548,16 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
             scanf(" %d", &choice2);
             if (choice2 == 1)
             {
-                for (int i = 0; i < productQuantity; i++)
+                for (int i = 0; i < countcart(cart); i++)
                 {
-                    if (cart[i].quantity != 0)
+                    for (int j = 0; j < productQuantity; j++)
                     {
-                        product[i].quantity += cart[i].quantity;
-                        cart[i].quantity -= cart[i].quantity;
+                        if (cart[i].code == product[j].code)
+                        {
+                            product[j].quantity += cart[i].quantity;
+                            cart[i].quantity -= cart[i].quantity;
+                            break;
+                        }
                     }
                 }
             }
@@ -564,9 +567,6 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
             }
             break;
         }
-        // fflush(stdin);
-        // getchar();
-        // return 1;
         case 3:
         {
             printf("\n\t\tGo back to menu: ");
@@ -580,37 +580,37 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
     }
     else if (userCode == 100)
     {
-        
+
         system("cls");
         printf("\t\t\t\t\tMAAD MART\n  \t\t\tFAST CAMPUS Khi\n\t\t\tEMAIL: info@maad_mart.com.pk\n\t\t\tLOG ON: www.facebook.com/maad_supermart\n\t\t\tContact Number: 0298581844\n");
-       
-        printf("\n\t\t\tCustomer Name: %s",customer.name); 
-        printf("\t\tCustomer ID: %i",customer.code);
-        printf("\n\t\t\tEmployee Name: %s",employee.name);
+
+        printf("\n\t\t\tCustomer Name: %s", customer.name);
+        printf("\t\tCustomer ID: %i", customer.code);
+        printf("\n\t\t\tEmployee Name: %s", employee.name);
 
         printf("\n\t\t\t\t-------------------------------\n");
-        
+
         printf("\t\t\t\t\t ORIGINAL RECIEPT\n");
         printf("\t\t\t\t-------------------------------\n");
 
         printf("\t\t\t\t\tProduct Description\n");
         printf("\t\t\tCODES\t  PRODUCT NAMES\t   QUANTITY\t PRICES");
         printf("\n\t\t\t-------------------------------------------------\n");
-       
-        for(i = 0; i < countcart(cart); i++)
+
+        for (i = 0; i < countcart(cart); i++)
         {
-            printf("\n\t\t\t%i\t\t%s\t\t%i\t\t%i",cart[i].code,cart[i].name,cart[i].quantity,cart[i].price);
+            printf("\n\t\t\t%i\t\t%s\t\t%i\t\t%i", cart[i].code, cart[i].name, cart[i].quantity, cart[i].price);
         }
         printf("\n\t\t\t-------------------------------------------------\n");
 
-        printf("\n\n\t\t\tTotal items / quantity\t\t\t%i",tQuan);
-        printf("\n\t\t\tDiscount\t\t\t\t%i",0);
-        printf("\n\t\t\tINVOICE VALUE\t\t\t\tRs.%i",total);
+        printf("\n\n\t\t\tTotal items / quantity\t\t\t%i", tQuan);
+        printf("\n\t\t\tDiscount\t\t\t\t%i", 0);
+        printf("\n\t\t\tINVOICE VALUE\t\t\t\tRs.%i", total);
 
         printf("\n\t\t\t*************************************************");
         printf("\n\t\t\t\t\tThank You For Shopping\n");
-        printf("\t\t\t*************************************************");       
-       
+        printf("\t\t\t*************************************************");
+
         printf("\n\n\t\t\tCHECKED OUT\n\t\t\tPress any key to continue ...");
         fflush(stdin);
         getchar();
