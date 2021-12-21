@@ -480,9 +480,103 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
     if (userCode == 99)
     {
         printf("SPECIAL TOOLS OPEN\n");
-        fflush(stdin);
-        getchar();
-        return 1;
+        int input_code, input_quantity, product_code;
+        int choice, n, choice1, choice2, m, j;
+        printf("\t\t\tTOOLS\t\t\t");
+        printf("\nInput a code");
+        printf("\nSelect your option:\nDelete\t\t\t1\nRemove all\t\t2\nGo back\t\t\t3\n========\n");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        //DELETE AN ITEM
+        case 1:
+        {
+            printf("\nDelete an item: ");
+
+            do
+            {
+                printf("\n\tEnter the item code you want to delete: ");
+                scanf(" %d", &product_code);
+
+                if (product_code < 101 || product_code > 106)
+                {
+                    printf("Invalid Input!");
+                    break;
+                }
+
+                int cont = 0;
+                // cont = 1;
+                for (int i = 0; i <= 6; i++)
+                {
+                    if (product_code == cart[i].code)
+                    {
+                        printf("Enter quantity you want to remove: ");
+                        scanf(" %d", &n);
+                        if (n > cart[i].quantity || cart[i].quantity < 0 || n < 0)
+                        {
+                            printf("\nYour input is invalid. Please enter the quantity of your cart items only.");
+                        }
+
+                        else
+                        {
+                            cont = 1;
+                            cart[i].quantity = cart[i].quantity - n;
+                            product[i].quantity = product[i].quantity + n;
+                            //printf("\nStore quantity after deleting: %d", product[i].quantity);
+                            printf("\nCart quantity after deleting: %d", cart[i].quantity);
+                        }
+                        break;
+                    }
+                }
+
+                printf("\nDo you want to remove any other item?\nPress 1 for yes\nPress 0 for no\n");
+                scanf(" %d", &choice1);
+
+                if (choice1 != 0 && choice1 != 1)
+                {
+                    printf("Invalid input");
+                    break;
+                }
+
+            } while (choice1);
+            break;
+        }
+            //REMOVE ALL ITEMS FROM CART
+        case 2:
+        {
+            printf("Are you sure you want to remove all items from your cart?\nPress 1 to confirm: ");
+            scanf(" %d", &choice2);
+            if (choice2 == 1)
+            {
+                for (int i = 0; i < productQuantity; i++)
+                {
+                    if (cart[i].quantity != 0)
+                    {
+                        product[i].quantity += cart[i].quantity;
+                        cart[i].quantity -= cart[i].quantity;
+                    }
+                }
+            }
+            else
+            {
+                printf("\nInvalid Input!");
+            }
+            break;
+        }
+        // fflush(stdin);
+        // getchar();
+        // return 1;
+        case 3:
+        {
+            printf("\n\t\tGo back to menu: ");
+            break;
+        }
+        }
+        // printf("SPECIAL TOOLS OPEN\n");
+        // fflush(stdin);
+        // getchar();
+        // return 1;
     }
     else if (userCode == 100)
     {
