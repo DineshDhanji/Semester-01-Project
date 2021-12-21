@@ -573,10 +573,6 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
             break;
         }
         }
-        // printf("SPECIAL TOOLS OPEN\n");
-        // fflush(stdin);
-        // getchar();
-        // return 1;
     }
     else if (userCode == 100)
     {
@@ -1028,7 +1024,6 @@ int deleteProduct()
 
     return 1;
 }
-
 int addEmploye()
 {
     system("cls");
@@ -1120,7 +1115,6 @@ int remEmploye()
     }
     return 1;
 }
-
 int employeePortal()
 {
     int num, code, found = 0;
