@@ -884,6 +884,7 @@ int deleteProduct()
 
 int addEmploye()
 {
+    system("cls");
     int code = 0;
     char name[30], emName[30];
     printf("\t\t\t\tADDING EMPLOYEE\n\n\t\t\t  Enter the name of employee: ");
@@ -912,7 +913,7 @@ int addEmploye()
     else
     {
         code++;
-        fprintf(ptr, "%d %s\n", code, name);
+        fprintf(ptr, "\n%d %s", code, name);
     }
     printf("\n\n\t\t\t\tEMPLOYEE NAME: %s\n\t\t\t\tCODE: %d\n", name, code);
     fclose(ptr);
@@ -920,6 +921,7 @@ int addEmploye()
 }
 int remEmploye()
 {
+    system("cls");
     int code1, code, found = 0;
     char name[30];
     printf("\t\t\t\tDELETING AN EMPLOYEE\n\n\t\t\t  Enter the unique ID of employee: ");
