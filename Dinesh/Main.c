@@ -72,6 +72,12 @@ int main(int argc, char const *argv[])
                 system("cls");
                 IsCustomerAvailable = printing(ptr, product, cart, productQuantity);
             }
+
+            // Opening Products.txt file for updating data.
+            // Temporary work to stop screen
+            // printf("\n");
+            // fflush(stdin);
+            // getchar();
         }
     }
     return 0;
@@ -432,6 +438,7 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
         printf("===========");
     }
     printf("\n\tEmployee's Name: %s\n\tCustomer's Name: %s, ID: %d\n", employee.name, customer.name, customer.code);
+    printf("\n\tInput 99 for special tools\n\tInput 100 to check out\n\n");
     for (int i = 0; i < 10; i++)
     {
         printf("===========");
@@ -500,7 +507,7 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
 
                 int cont = 0;
                 // cont = 1;
-                for (int i = 0; i <= 6; i++)
+                for (int i = 0; i <= countcart(cart); i++)
                 {
                     if (product_code == cart[i].code)
                     {
@@ -514,13 +521,21 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
                         else
                         {
                             cont = 1;
-                            cart[i].quantity = cart[i].quantity - n;
-                            product[i].quantity = product[i].quantity + n;
-                            //printf("\nStore quantity after deleting: %d", product[i].quantity);
-                            printf("\nCart quantity after deleting: %d", cart[i].quantity);
+                            for (int j = 0; j < countcart(cart); j++)
+                            {
+                                for (int k = 0; k < productQuantity; k++)
+                                {
+                                    if (cart[j].code == product[k].code)
+                                    {
+                                        product[k].quantity += n;
+                                        cart[j].quantity -= n;
+                                        break;
+                                    }
+                                }
+                            }
                         }
-                        break;
                     }
+                    break;
                 }
 
                 printf("\nDo you want to remove any other item?\nPress 1 for yes\nPress 0 for no\n");
@@ -533,7 +548,8 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
                 }
 
             } while (choice1);
-            break;
+            
+            return 1;
         }
             //REMOVE ALL ITEMS FROM CART
         case 2:
