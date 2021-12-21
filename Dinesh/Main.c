@@ -46,6 +46,7 @@ int main(int argc, char const *argv[])
         printf("ERROR\n");
         exit(1);
     }
+    strcpy(employee.name, "ALI");
 
     // productQuantity = Qunatity of products in Products.txt
     int productQuantity;
@@ -106,17 +107,16 @@ int greeting()
     {
     case 1:
     {
-    choice = adminPortal();
+        choice = adminPortal();
         break;
     }
     case 2:
     {
-    choice = employeePortal();
-        sleep(1);
+        choice = employeePortal();
         break;
     }
     }
-        return choice;
+    return choice;
 }
 void reportGenerationLoadingScreen()
 {
@@ -423,33 +423,58 @@ int Accounts(void)
 }
 int printing(FILE *ptr, struct items *product, struct items *cart, int productQuantity)
 {
-    int userCode;
+    int userCode, total = 0;
     // Accessing new data.
     int i = 0;
     while (fscanf(ptr, "%d %s %d %d", &product[i].code, product[i].name, &product[i].quantity, &product[i].price) != EOF)
     {
         i++;
     }
+    
     printf("\n");
     printf("\t\t\t\t\tWELCOME TO MAAD MART\n");
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 10; i++)
     {
-        printf("--------");
+        printf("===========");
     }
-    printf("\nCustomer's ID: %d\n", customer.code);
+    printf("\n\tEmployee's Name: %s\n\tCustomer's Name: %s, ID: %d\n", employee.name, customer.name, customer.code);
+    for (int i = 0; i < 10; i++)
+    {
+        printf("===========");
+    }
 
-    printf("\t\t\tPRODUCTS\t\t\t\t\tCART\nCODES\tPRODUCT NAMES\tQUANTITY\tPRICES   |   CODES\tPRODUCT NAMES\tQUANTITY\tPRICES\n");
+    printf("\n\t\t\tPRODUCTS\t\t\t\t\tCART\n");
+    for (int i = 0; i < 10; i++)
+    {
+        printf("-----------");
+    }
+    printf("\nCODES\tPRODUCT NAMES\tQUANTITY\tPRICES   |   CODES\tPRODUCT NAMES\tQUANTITY\tPRICES\n");
+    for (int i = 0; i < 10; i++)
+    {
+        printf("-----------");
+    }
+    printf("\n");
     for (int i = 0; i < productQuantity; i++)
     {
         printf("%i\t%s\t\t%i\t\t%i\t |", product[i].code, product[i].name, product[i].quantity, product[i].price);
         if (cart[i].quantity != 0)
         {
             printf("   %i\t%s\t\t%i\t\t%i", cart[i].code, cart[i].name, cart[i].quantity, cart[i].price);
+            total += cart[i].quantity * cart[i].price;
         }
         printf("\n");
     }
+    printf("\t\t\t\t\t\t |      TOTAL : \t\t\t\t%d\n", total);
+
+    for (int i = 0; i < 10; i++)
+    {
+        printf("-----------");
+    }
+    
+    fflush(stdin);
     printf("\nInput: ");
     scanf(" %d", &userCode);
+    
 
     if (userCode == 99)
     {
@@ -458,7 +483,7 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
         getchar();
         return 1;
     }
-    else if (userCode == 0)
+    else if (userCode == 100)
     {
         // int choice;
         // printf("Are You Sure You Want To Check Out ?\nYES\t1\nNO\t2");
@@ -988,7 +1013,7 @@ int employeePortal()
         if (num == code)
         {
             employee.code = code;
-            strcpy(employee.name , name);
+            strcpy(employee.name, name);
             found = 1;
             printf("\n\t\t\t\t\tWELCOME \"%s\" `\\(^ o ^)/`", employee.name);
             sleep(1);
