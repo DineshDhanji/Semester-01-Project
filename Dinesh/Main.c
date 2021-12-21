@@ -72,12 +72,6 @@ int main(int argc, char const *argv[])
                 system("cls");
                 IsCustomerAvailable = printing(ptr, product, cart, productQuantity);
             }
-
-            // Opening Products.txt file for updating data.
-            // Temporary work to stop screen
-            // printf("\n");
-            // fflush(stdin);
-            // getchar();
         }
     }
     return 0;
