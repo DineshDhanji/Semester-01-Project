@@ -1,5 +1,5 @@
 #include <stdio.h>
-// #include <unistd.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -32,7 +32,7 @@ int deleteProduct();
 int addEmploye();
 int remEmploye();
 int employeePortal();
-int updateUserData(void);
+
 // MAIN
 int main(int argc, char const *argv[])
 {
@@ -296,7 +296,7 @@ int Accounts(void)
 {
     system("cls");
     unsigned long int Inputed_Number, Customer_Number;
-    int a_check, b_check, c_check, a = 0, x, cont = 1, update_info;
+    int a_check, b_check, c_check, a = 0, x, cont = 1;
     char name[30];
     do
     {
@@ -328,12 +328,6 @@ int Accounts(void)
                 {
                     printf("\n\t\t\t\tCustomer Id\tName\t\tMobile Number\n");
                     printf("\t\t\t\t%d\t\t%s\t%lu\n", customer.code, customer.name, Customer_Number);
-                    printf("\t\t\t\tDoes customer want to update his information?\n\t\t\t\t\tYES\t\t1\n\t\t\t\t\tNo\t\t2\n\t\t\tInput: ");
-                    scanf(" %d", &update_info);
-                    if (update_info == 1)
-                    {
-                        updateUserData();
-                    }
                     x = 1;
                     fclose(fileptr);
                     break;
@@ -429,14 +423,14 @@ int Accounts(void)
 }
 int printing(FILE *ptr, struct items *product, struct items *cart, int productQuantity)
 {
-    int userCode, total = 0;
+    int userCode, total = 0, tQuan = 0;
     // Accessing new data.
     int i = 0;
     while (fscanf(ptr, "%d %s %d %d", &product[i].code, product[i].name, &product[i].quantity, &product[i].price) != EOF)
     {
         i++;
     }
-
+    
     printf("\n");
     printf("\t\t\t\t\tWELCOME TO MAAD MART\n");
     for (int i = 0; i < 10; i++)
@@ -467,6 +461,7 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
         {
             printf("   %i\t%s\t\t%i\t\t%i", cart[i].code, cart[i].name, cart[i].quantity, cart[i].price);
             total += cart[i].quantity * cart[i].price;
+            tQuan += cart[i].quantity;
         }
         printf("\n");
     }
@@ -476,10 +471,11 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
     {
         printf("-----------");
     }
-
+    
     fflush(stdin);
     printf("\nInput: ");
     scanf(" %d", &userCode);
+    
 
     if (userCode == 99)
     {
@@ -490,11 +486,38 @@ int printing(FILE *ptr, struct items *product, struct items *cart, int productQu
     }
     else if (userCode == 100)
     {
-        // int choice;
-        // printf("Are You Sure You Want To Check Out ?\nYES\t1\nNO\t2");
-        // fflush(stdin);
-        // scanf(" %d", &choice);
-        printf("CHECKED OUT\nPress any key to continue ...");
+        
+        system("cls");
+        printf("\t\t\t\t\tMAAD MART\n  \t\t\tFAST CAMPUS Khi\n\t\t\tEMAIL: info@maad_mart.com.pk\n\t\t\tLOG ON: www.facebook.com/maad_supermart\n\t\t\tContact Number: 0298581844\n");
+       
+        printf("\n\t\t\tCustomer Name: %s",customer.name); 
+        printf("\t\tCustomer ID: %i",customer.code);
+        printf("\n\t\t\tEmployee Name: %s",employee.name);
+
+        printf("\n\t\t\t\t-------------------------------\n");
+        
+        printf("\t\t\t\t\t ORIGINAL RECIEPT\n");
+        printf("\t\t\t\t-------------------------------\n");
+
+        printf("\t\t\t\t\tProduct Description\n");
+        printf("\t\t\tCODES\t  PRODUCT NAMES\t   QUANTITY\t PRICES");
+        printf("\n\t\t\t-------------------------------------------------\n");
+       
+        for(i = 0; i < countcart(cart); i++)
+        {
+            printf("\n\t\t\t%i\t\t%s\t\t%i\t\t%i",cart[i].code,cart[i].name,cart[i].quantity,cart[i].price);
+        }
+        printf("\n\t\t\t-------------------------------------------------\n");
+
+        printf("\n\n\t\t\tTotal items / quantity\t\t\t%i",tQuan);
+        printf("\n\t\t\tDiscount\t\t\t\t%i",0);
+        printf("\n\t\t\tINVOICE VALUE\t\t\t\tRs.%i",total);
+
+        printf("\n\t\t\t*************************************************");
+        printf("\n\t\t\t\t\tThank You For Shopping\n");
+        printf("\t\t\t*************************************************");       
+       
+        printf("\n\n\t\t\tCHECKED OUT\n\t\t\tPress any key to continue ...");
         fflush(stdin);
         getchar();
 
@@ -1032,56 +1055,4 @@ int employeePortal()
         sleep(1);
         return 0;
     }
-}
-int updateUserData(void)
-{
-    system("cls");
-    unsigned long int Customer_Number, New_Number;
-    int temp_customer_code, b, Customer_code, found = 0;
-    char Customer_Name[30];
-    FILE *fileptr1, *fileptr2;
-    fileptr1 = fopen("Customer Info.txt", "r");
-    fileptr2 = fopen("Customer Info.txt", "r+");
-    if (fileptr1 == NULL && fileptr2 == NULL)
-    {
-        printf("\t\t\t\tCould not open the file. (! . !)\n");
-        exit(1);
-    }
-    fscanf(fileptr1, "%d", &temp_customer_code);
-    fprintf(fileptr2, "%d\n", temp_customer_code);
-    fflush(stdin);
-    printf("\t\t\t\tEnter new mobile number to update\n\t\t\t\t\tINPUT: ");
-    scanf(" %lu", &New_Number);
-    while (fscanf(fileptr1, "%d %s %lu", &Customer_code, Customer_Name, &Customer_Number) != EOF)
-    {
-        if (New_Number == Customer_Number)
-        {
-            found = 1;
-            break;
-        }
-    }
-    if (found == 1)
-    {
-        printf("\t\t\t\tTHE NUMBER ALREADY EXISTS IN DATA\n");
-        sleep(1);
-    }
-    else
-    {
-        rewind(fileptr1);
-        fscanf(fileptr1, "%d", &temp_customer_code);
-        while (fscanf(fileptr1, "%d %s %lu", &Customer_code, Customer_Name, &Customer_Number) != EOF)
-        {
-            if (Customer_code == customer.code)
-            {
-                fprintf(fileptr2, "%d %s %lu\n", Customer_code, Customer_Name, New_Number);
-            }
-            else
-            {
-                fprintf(fileptr2, "%d %s %lu\n", Customer_code, Customer_Name, Customer_Number);
-            }
-        }
-        fclose(fileptr2);
-        fclose(fileptr1);
-    }
-    return 1;
 }
