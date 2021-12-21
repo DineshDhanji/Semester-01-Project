@@ -867,13 +867,15 @@ int deleteProduct()
     }
     else
     {
-        ptr1 = fopen("./Products.txt", "w");
+        ptr1 = fopen("./Products.txt", "w+");
         fprintf(ptr1, "%d\n", productQuantity-1);
         fseek(ptr2, cursor1, SEEK_SET);
         while (fscanf(ptr2, "%d %s %d %d", &code, name, &quantity, &price) != EOF)
         {
             fprintf(ptr1, "%d %s %d %d\n", code, name, quantity, price);
         }
+        fclose(ptr1);
+        fclose(ptr2);
     }
 
     return 1;
@@ -913,6 +915,7 @@ int addEmploye()
     }
     printf("\n\n\t\t\t\tEMPLOYEE NAME: %s\n\t\t\t\tCODE: %d\n", name, code);
     fclose(ptr);
+    return 1;
 }
 
 int remEmploye()
@@ -949,12 +952,14 @@ int remEmploye()
                 }
             }
             fclose(ptr1);
-            ptr1 = fopen("./Employees.txt", "w");
+            ptr1 = fopen("Employees.txt", "w+");
             rewind(ptr2);
             while (fscanf(ptr2, "%d %s", &code, name) != EOF)
             {
                 fprintf(ptr1, "%d %s\n", code, name);
             }
+            fclose(ptr1);
+            fclose(ptr2);
             break;
         }
     }
