@@ -15,7 +15,7 @@ struct user
 {
     int code;
     char name[30];
-} customer;
+} customer, employee;
 
 // FUNCTIONS
 int greeting();
@@ -31,6 +31,7 @@ int addProduct();
 int deleteProduct();
 int addEmploye();
 int remEmploye();
+int employeePortal();
 
 // MAIN
 int main(int argc, char const *argv[])
@@ -56,9 +57,9 @@ int main(int argc, char const *argv[])
     while (1)
     {
         if (DidYouGreet == 0)
-    {
-        DidYouGreet = greeting();
-    }
+        {
+            DidYouGreet = greeting();
+        }
         if (DidYouGreet == 1)
         {
             if (IsCustomerAvailable == 0)
@@ -110,12 +111,12 @@ int greeting()
     }
     case 2:
     {
-        printf("\t\t\t\t     EMPLOYEE PORTAL\n");
+    choice = employeePortal();
         sleep(1);
         break;
     }
     }
-
+        return choice;
 }
 void reportGenerationLoadingScreen()
 {
@@ -692,7 +693,7 @@ int adminPortal()
         }
         else
         {
-    choice = adminMenu();
+            choice = adminMenu();
         }
 
     } while (choice == 2);
@@ -727,18 +728,18 @@ int adminMenu()
         }
         case 3:
         {
-    choice = addEmploye();
-        	break;
+            choice = addEmploye();
+            break;
         }
         case 4:
         {
-        	choice = remEmploye();
-        	break;
+            choice = remEmploye();
+            break;
         }
         case 5:
         {
-        	reportGenerationLoadingScreen();
-        	break;
+            reportGenerationLoadingScreen();
+            break;
         }
         case 6:
         {
@@ -848,7 +849,7 @@ int deleteProduct()
         sleep(1);
         exit(1);
     }
-    fprintf(ptr2, "%d\n", productQuantity-1);
+    fprintf(ptr2, "%d\n", productQuantity - 1);
     fseek(ptr1, cursor1, SEEK_SET);
     while (fscanf(ptr1, "%d %s %d %d", &code, &name, &quantity, &price) != EOF)
     {
@@ -868,7 +869,7 @@ int deleteProduct()
     else
     {
         ptr1 = fopen("./Products.txt", "w+");
-        fprintf(ptr1, "%d\n", productQuantity-1);
+        fprintf(ptr1, "%d\n", productQuantity - 1);
         fseek(ptr2, cursor1, SEEK_SET);
         while (fscanf(ptr2, "%d %s %d %d", &code, name, &quantity, &price) != EOF)
         {
@@ -917,7 +918,6 @@ int addEmploye()
     fclose(ptr);
     return 1;
 }
-
 int remEmploye()
 {
     int code1, code, found = 0;
@@ -970,4 +970,34 @@ int remEmploye()
         sleep(1);
     }
     return 1;
+}
+
+int employeePortal()
+{
+    int num, code, found = 0;
+    char name[30];
+    system("cls");
+    printf("\t\t\t\t\t     EMPLOYEES PORTAL\n\t\t\t\tInput the unique ID of employee: ");
+    fflush(stdin);
+    scanf(" %d", &num);
+    FILE *ptr = fopen("./Employees.txt", "r+");
+    while (fscanf(ptr, "%d %s", &code, name) != EOF)
+    {
+        if (num == code)
+        {
+            employee.code = code;
+            strcpy(employee.name , name);
+            found = 1;
+            printf("\n\t\t\t\t\tWELCOME \"%s\" `\\(^ o ^)/`", employee.name);
+            sleep(1);
+            fclose(ptr);
+            return 1;
+        }
+    }
+    if (found == 0)
+    {
+        printf("\t\t\t\t\tINVALID CREDENTIAL (@ o @)\n");
+        sleep(1);
+        return 0;
+    }
 }
