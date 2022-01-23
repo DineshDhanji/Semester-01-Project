@@ -1,6 +1,0 @@
-1 Apple 5 100 
-2 Banana 7 150
-3 Cat 12 120
-4 Dog 14 140
-5 Elf 14 140
-6 Fish 15 150
