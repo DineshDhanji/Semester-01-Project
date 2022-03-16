@@ -1,4 +1,0 @@
-3
-1 Kazuha 123
-2 Hamza 122
-3 ali 100
